@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -48,9 +49,22 @@ import com.example.dessertclicker.data.Datasource
 import com.example.dessertclicker.model.Dessert
 import com.example.dessertclicker.ui.theme.DessertClickerTheme
 
+/*
+    const - compile-time constant, use when value known during compilation.
+*/
+private const val TAG = "MainActivity"
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        /*
+        * onCreate
+        *   - lifecycle method called once, just after the activity initializes
+        *   — when the OS creates the new Activity object in memory
+        *   - After onCreate() executes, the activity is considered created.
+        *   - where you should do any one-time initializations for your activity e.g. setContent()
+        */
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate Called")
         setContent {
             DessertClickerTheme {
                 // A surface container using the 'background' color from the theme
@@ -63,6 +77,79 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    /* onStart
+     *  - called just after onCreate()
+     *  - your activity is visible on the screen after onStart() runs
+     *  - onCreate() called only once, on iniitalize activity
+     *  - onStart(), can be called by the system many times in activity lifecycle
+     *  - makes the app visible on the screen, but the user is not yet able to interact with it
+     *  - also called when user unlocks phone and user is on app
+     */
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart Called")
+    }
+
+    /*
+     * brings the app to the foreground, and the user is now able to interact with it.
+     * Despite the name, the onResume() method is called at startup, even if there is nothing to resume.
+     */
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume Called")
+    }
+
+    /*
+        - called by the system if the activity has already been created
+        - eventually enters the Created state when onStop() is called, but returns back to the
+        Started state instead of entering the Destroyed state.
+         - this method is a place to put code that you only want to call if your activity is not
+          - being started for the first time.
+     */
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart Called")
+    }
+
+    /*
+        * use case
+        *   - blocks other things from displaying
+        *   - when activity is no longer focus
+        *   - Back button
+        *       - causes the activity (and the app) to be removed from the screen
+        *       - move to the back of the activity stack
+        * Activity does not close down entirely every time the user navigates away from that activity:
+        *   - When activity no longer visible on screen, the status is known as putting the activity into the background
+        *   - when the activity is in the foreground, or onscreen.
+        *   - When the user returns to your app, that same activity is restarted and
+        *  becomes visible again. This part of the lifecycle is called the app's visible lifecycle.
+        * - app no longer has focus
+        * - The interruption with only onPause() usually lasts a short time (not calling onStop())
+        * -  before returning to your activity or navigating to another activity or app.
+        * -  generally want to keep updating the UI so the rest of your app doesn't appear to freeze.
+     */
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause Called")
+    }
+
+    /*
+        * also called when user locks phone
+        *  Although activity stopped, Activity object still in memory in the background.
+        * - The Android OS has not destroyed the activity. The user might return to the app, so
+        * Android keeps your activity resources around.
+     */
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop Called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy Called")
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
