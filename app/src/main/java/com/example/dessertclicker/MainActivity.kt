@@ -145,6 +145,11 @@ class MainActivity : ComponentActivity() {
         Log.d(TAG, "onStop Called")
     }
 
+    /*
+        * Configuration change calls this method
+        * Screen rotation is one type of a configuration change that causes the activity to
+        *  shutdown and restart.
+     */
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "onDestroy Called")
